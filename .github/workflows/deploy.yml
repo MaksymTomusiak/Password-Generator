@@ -39,6 +39,10 @@ jobs:
       - name: Build Next.js app
         run: npm run build
 
+        # Add this temporary debug step!
+      - name: Debug - List files after build
+        run: ls -la
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
