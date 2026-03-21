@@ -1,17 +1,18 @@
 import type { NextConfig } from "next";
 
-// Check if the build is running inside GitHub Actions
-const isGithubActions = process.env.GITHUB_ACTIONS === "true";
+// Vercel natively injects this environment variable during deployment
+const isVercel = process.env.VERCEL === "1";
 
 let nextConfig: NextConfig = {
   reactCompiler: true,
 };
 
-// Only apply these settings if deploying to GitHub Pages
-if (isGithubActions) {
+// If it's NOT Vercel, apply the GitHub Pages settings that worked for you
+if (!isVercel) {
   nextConfig = {
     ...nextConfig,
     output: "export",
+    // Use the exact name that worked perfectly for you before
     basePath: "/password-generator",
   };
 }
