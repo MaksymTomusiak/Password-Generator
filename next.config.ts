@@ -13,7 +13,7 @@ if (!isVercel) {
     ...nextConfig,
     output: "export",
     // Use the exact name that worked perfectly for you before
-    basePath: "/password-generator",
+    basePath: "/Password-Generator",
   };
 }
 
