@@ -36,6 +36,8 @@ jobs:
 
       - name: Build Next.js app
         run: npm run build
+        env:
+          NEXT_OUTPUT: export
 
         # Add this temporary debug step!
       - name: Debug - List files after build
