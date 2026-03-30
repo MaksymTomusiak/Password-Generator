@@ -8,7 +8,7 @@
     "start": "next start",
     "test": "jest",
     "test:ci": "jest --ci --coverage --watchAll=false",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
     "next": "16.2.1",
