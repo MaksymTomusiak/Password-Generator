@@ -1,27 +1,29 @@
-# Stage 1: Встановлення залежностей
+# Stage 1: Install dependencies
 FROM node:24-alpine AS deps
 WORKDIR /app
-COPY package.json package-lock.json./
+COPY package.json package-lock.json ./
 RUN npm ci --frozen-lockfile
 
-# Stage 2: Збирання проєкту
+# Stage 2: Build the project
 FROM node:24-alpine AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules./node_modules
-COPY..
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+ARG NEXT_OUTPUT=standalone
+ENV NEXT_OUTPUT=${NEXT_OUTPUT}
 RUN npm run build
 
-# Stage 3: Фінальний образ для запуску
+# Stage 3: Runner
 FROM node:24-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV production
-# Використання не-root користувача для безпеки
+# Using a non-root user for security
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-COPY --from=builder /app/public./public
-COPY --from=builder /app/.next/standalone./
-COPY --from=builder /app/.next/static./.next/static
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
 USER nextjs
 EXPOSE 3000
